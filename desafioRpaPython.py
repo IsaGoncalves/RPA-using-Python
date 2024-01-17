@@ -1,3 +1,12 @@
+'''A raspagem de dados foi feita através da biblioteca BeautifulSoup e a interação com o formulário foi feita no navegador Chrome através da biblioteca Selenium.
+
+A escolha das bibliotecas se deu tanto por serem utilizadas pela empresa, quanto por serem as mais recomendadas para web scraping e interação com sites.
+
+Alguns elementos não foram encontrados facilmente, pois não estavam visíveis, portanto foi utilizado ExpectedCondition como visibility_of_element_located, que retorna o elemento assim que o mesmo
+está visível. O element_to_be_clickable foi utilizado para quando o elemento está "clicável", ou seja, habilitado para ser clicado.
+
+'''
+
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
@@ -8,11 +17,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 
-# scraping das informações
+#conexao site
 link_vagas = "https://gruposeb.gupy.io/"
 requisicao_vagas = requests.get(link_vagas)
 site_vagas = BeautifulSoup(requisicao_vagas.text, "html.parser")
 
+# scraping das informações das vagas
 if requisicao_vagas.status_code == 200:
     lista_vagas = site_vagas.find('ul', {'aria-label': 'Lista de Vagas'})
     linhas = lista_vagas.find_all('li', class_='sc-f5007364-2 cskvFe')
